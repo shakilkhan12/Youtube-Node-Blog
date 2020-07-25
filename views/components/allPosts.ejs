@@ -1,0 +1,62 @@
+<div class="msg">
+    <div class="container"><% if(locals.message.success) { %> <div class="alert-success"><%= message.success %>
+        </div>
+        <% } %>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <% if(posts.length > 0 ) { %>
+        <% posts.forEach((post) => {  %>
+        <div class="col-3 p-20">
+            <div class="post">
+                <div class="postImg">
+                    <img src="/assets/img/<%= post.image %>" alt="">
+                </div>
+                <div class="postTitle">
+                    <h4><a href="/details/<%= post._id %>"><%= post.title.slice(0, 30) %>...</a></h4>
+                </div>
+                <div class="postBody">
+                    <%= post.body.slice(0, 90) %>...
+                </div>
+                <div class="postFooter">
+                    <span class="creator"><%= post.userName %></span>
+                    <span class="postTime"><%= formate(post.updatedAt, "d,mmmm, yyyy") %></span>
+                </div>
+            </div>
+        </div>
+        <% }) %>
+        <% } else { %>
+        <p>No Posts in the database</p>
+        <% } %>
+    </div>
+
+    <% 
+    let totalPages = Math.ceil(count/perPage);
+    let startLoop =  currentPage;
+    let diff = totalPages - currentPage;
+    if(diff <= 4){
+        startLoop = totalPages - 4;
+    }
+    let endLoop = parseInt(startLoop) + 4;
+    if(startLoop <= 0 ){
+        startLoop = 1;
+    }
+    %>
+    <% if(count > 4 && posts.length !== 0){ %>
+    <div class="pagination">
+        <ul>
+            <% if(currentPage > 1) { %>
+            <li><a href="/posts/<%= currentPage - 1%>" class="prev">Prev</a></li>
+            <% } %>
+            <% for(let i = startLoop; i <= endLoop; i++){ let active = i == currentPage ? 'active' : '' %>
+            <li><a href="/posts/<%= i %>" class="<%= active %>"><%= i %></a></li>
+            <% } %>
+            <% if(currentPage < totalPages){ %>
+            <li><a href="/posts/<%= parseInt(currentPage) + 1%>" class="prev">Next</a></li>
+            <% } %>
+        </ul>
+    </div>
+    <% } %>
+
+</div>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('components/header.ejs') %>
+
+<body>
+    <%- include("components/nav.ejs") %>
+    <div class="postFormContainer">
+        <% if(errors.length > 0) { %>
+        <div class="errors errors-helper">
+            <% errors.forEach(error => {  %>
+            <span class="error"><%= error.msg %></span>
+            <% }) %>
+        </div>
+        <% } %>
+        <%- include('components/updateForm.ejs') %>
+    </div>
+
+</body>
+
+
+</html>
